@@ -23,8 +23,8 @@
 		public function filter_spam_filter ( $rating, $comment, $handler_vars, $extra ) {
 			
 			$spams = DB::get_value('SELECT count(*) FROM ' . DB::table('comments') . ' WHERE status = ? AND ip = ?', array(Comment::STATUS_SPAM, $comment->ip));
-			
-			if ( $spams >= 5 ) {
+			// one more than the spamfilter plugin, as you're a repeat spammer
+			if ( $spams > 2 ) {
 				
 				ob_end_clean();
 				header( 'HTTP/1.1 403 Forbidden', true, 403 );
